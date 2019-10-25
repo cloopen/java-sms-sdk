@@ -16,18 +16,18 @@ public class CCPRestSmsSDKTest {
 		//请求端口
 		String serverPort = "8883";
 		//主账号,登陆云通讯网站后,可在控制台首页看到开发者主账号ACCOUNT SID和主账号令牌AUTH TOKEN
-		String accountSId = "aaf98fda422216d001422220824c0000";
-		String accountToken = "73c4daa2578d4ddd88c52f7a314f2d8b";
+		String accountSId = "accountSId";
+		String accountToken = "accountToken";
 		//请使用管理控制台中已创建应用的APPID
-		String appId = "8a48b5514b06c128014b07001c68001b";
+		String appId = "appId";
 		CCPRestSmsSDK sdk = new CCPRestSmsSDK();
 		sdk.init(serverIp, serverPort);
 		sdk.setAccount(accountSId, accountToken);
 		sdk.setAppId(appId);
 		sdk.setBodyType(BodyType.Type_JSON);
-		String to = "13520007311";
-		String templateId= "67731";
-		String[] datas = {"测试","5678","5"};
+		String to = "mobile1";
+		String templateId= "templateId";
+		String[] datas = {"变量1","变量2","变量3"};
 		HashMap<String, Object> result = sdk.sendTemplateSMS(to,templateId,datas);
 		if("000000".equals(result.get("statusCode"))){
 			//正常返回输出data包体信息（map）
