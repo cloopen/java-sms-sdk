@@ -32,7 +32,10 @@
     </developers>
 
     <properties>
-        <java.version>1.6</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java_source_version>1.6</java_source_version>
+        <java_target_version>1.6</java_target_version>
+
         <junit.version>4.12</junit.version>
         <commons-logging.version>1.2</commons-logging.version>
         <commons-codec.version>1.11</commons-codec.version>
@@ -121,9 +124,17 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>${java_source_version}</source>
+                    <target>${java_target_version}</target>
                     <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
             <!-- gpg plugin,用于签名认证 -->

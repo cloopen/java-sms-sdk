@@ -2,14 +2,11 @@ package com.cloopen.rest.sdk.utils;
 
 import java.security.MessageDigest;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 /**
  * 加密类
  */
 public class Encrypt {
-	private static final String UTF8 = "utf-8";
 	public static String encryptMD5(String strInput) {
 	    StringBuffer buf = null;
 	    try {
@@ -29,27 +26,5 @@ public class Encrypt {
 	    return buf.toString();
 	}
 	
-
-	/** 
-     * BASE64编码
-     * @param src 
-     * @return 
-     * @throws Exception 
-     */  
-    public static String base64Encoder(String src) throws Exception {  
-        BASE64Encoder encoder = new BASE64Encoder();  
-        return encoder.encode(src.getBytes(UTF8));
-    }  
-      
-    /** 
-     * BASE64解码
-     * @param dest 
-     * @return 
-     * @throws Exception 
-     */  
-    public static String base64Decoder(String dest) throws Exception {  
-        BASE64Decoder decoder = new BASE64Decoder();  
-        return new String(decoder.decodeBuffer(dest), UTF8);
-    }  
 
 }
