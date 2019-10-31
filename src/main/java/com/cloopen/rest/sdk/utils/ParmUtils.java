@@ -1,6 +1,6 @@
 package com.cloopen.rest.sdk.utils;
 
-//import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
 
@@ -19,8 +19,8 @@ public class ParmUtils {
 
 	public static String generateAuthorization(String accountSid, String timestamp) throws UnsupportedEncodingException {
 		StringBuffer sb= new StringBuffer(accountSid).append(":").append(timestamp);
-		//String authorization = new String(Base64.encodeBase64(sb.toString().getBytes(Constant.UTF8)), Constant.UTF8);
-		String authorization = null;
+		String authorization = new String(Base64.encodeBase64(sb.toString().getBytes(Constant.UTF8)), Constant.UTF8);
+
 		return authorization;
 	}
 }

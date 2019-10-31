@@ -2,6 +2,7 @@ package com.cloopen.rest.sdk.utils;
 
 import com.cloopen.rest.sdk.BodyType;
 import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -63,22 +64,24 @@ public class HttpClientUtil {
 
 	/**
 	 * post请求(1.处理http请求;2.处理https请求,信任所有证书)[默认编码:UTF-8]
+	 *
 	 * @param url
 	 * @param reqMap
 	 * @return
 	 */
-	public static String post(String url, Map<String, String> reqMap){
+	public static String post(String url, Map<String, String> reqMap) {
 		return post(url, reqMap, DEFAULT_ENCODING);
 	}
 
 	/**
 	 * post请求(1.处理http请求;2.处理https请求,信任所有证书)
+	 *
 	 * @param url
-	 * @param reqMap 入参是个map
+	 * @param reqMap   入参是个map
 	 * @param encoding
 	 * @return
 	 */
-	public static String post(String url, Map<String, String> reqMap, String encoding){
+	public static String post(String url, Map<String, String> reqMap, String encoding) {
 		String result = "";
 
 		// 添加参数
@@ -95,7 +98,7 @@ public class HttpClientUtil {
 		if (url.startsWith(HTTPS)) {
 			// 创建一个SSL信任所有证书的httpClient对象
 			httpClient = HttpClientUtil.createSSLInsecureClient();
-		}else {
+		} else {
 			httpClient = HttpClients.createDefault();
 		}
 		CloseableHttpResponse response = null;
@@ -115,7 +118,7 @@ public class HttpClientUtil {
 			response = httpClient.execute(httpPost);
 			result = handleResponse(url, encoding, response);
 		} catch (IOException e) {
-			log.error("-----> url:" + url +",post请求异常:" + e.getMessage());
+			log.error("-----> url:" + url + ",post请求异常:" + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			closeResource(httpClient, response);
@@ -126,20 +129,21 @@ public class HttpClientUtil {
 
 	/**
 	 * post请求(1.处理http请求;2.处理https请求,信任所有证书)
+	 *
 	 * @param url
 	 * @param authorization 验证信息
-	 * @param strParams 入参是个字符串(json/xml)
+	 * @param strParams     入参是个字符串(json/xml)
 	 * @param encoding
 	 * @return
 	 */
-	public static String post(String url, String authorization,String strParams, BodyType BODY_TYPE, String encoding){
+	public static String post(String url, String authorization, String strParams, BodyType BODY_TYPE, String encoding) {
 		String result = "";
 
 		CloseableHttpClient httpClient = null;
 		if (url.startsWith(HTTPS)) {
 			// 创建一个SSL信任所有证书的httpClient对象
 			httpClient = HttpClientUtil.createSSLInsecureClient();
-		}else {
+		} else {
 			httpClient = HttpClients.createDefault();
 		}
 		CloseableHttpResponse response = null;
@@ -158,7 +162,7 @@ public class HttpClientUtil {
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-Type", "application/json;charset=" + encoding);
 				httpPost.setEntity(new StringEntity(strParams, ContentType.create("application/json", encoding)));
-			}else{
+			} else {
 				httpPost.setHeader("Accept", "application/xml");
 				httpPost.setHeader("Content-Type", "application/xml;charset=" + encoding);
 				httpPost.setEntity(new StringEntity(strParams, ContentType.create("application/xml", encoding)));
@@ -166,9 +170,9 @@ public class HttpClientUtil {
 			// 发送请求，并接收响应
 			response = httpClient.execute(httpPost);
 			result = handleResponse(url, encoding, response);
-			log.info("Response body:{}",result);
+			log.info("Response body:{}", result);
 		} catch (IOException e) {
-			log.error("-----> url:" + url +",post请求异常:" + e.getMessage());
+			log.error("-----> url:" + url + ",post请求异常:" + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			closeResource(httpClient, response);
@@ -207,6 +211,7 @@ public class HttpClientUtil {
 
 	/**
 	 * 处理响应，获取响应报文
+	 *
 	 * @param url
 	 * @param encoding
 	 * @param response
@@ -233,16 +238,16 @@ public class HttpClientUtil {
 
 					// 释放entity
 					EntityUtils.consume(entity);
-				}else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+				} else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_FOUND) {
 					log.info("-----> get请求404,未找到资源. url:" + url);
-				}else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
+				} else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
 					log.info("-----> get请求500,服务器端异常. url:" + url);
 				}
 			}
 		} catch (Exception e) {
 			log.error("----->url:" + url + ",处理响应，获取响应报文异常：" + e.getMessage());
 			e.printStackTrace();
-		}finally {
+		} finally {
 			if (br != null) {
 				try {
 					br.close();
@@ -257,6 +262,7 @@ public class HttpClientUtil {
 
 	/**
 	 * 释放资源
+	 *
 	 * @param httpClient
 	 * @param response
 	 */
@@ -279,8 +285,6 @@ public class HttpClientUtil {
 			}
 		}
 	}
-
-
 
 
 	/**
@@ -311,7 +315,7 @@ public class HttpClientUtil {
 			}
 		};
 
-		sc.init(null, new TrustManager[] { trustManager }, null);
+		sc.init(null, new TrustManager[]{trustManager}, null);
 		return sc;
 	}
 
