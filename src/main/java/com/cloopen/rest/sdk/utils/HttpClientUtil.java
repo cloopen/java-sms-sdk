@@ -1,7 +1,6 @@
 package com.cloopen.rest.sdk.utils;
 
 import com.cloopen.rest.sdk.BodyType;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +19,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -44,8 +45,8 @@ import org.apache.http.util.EntityUtils;
  * Date:  2019-10-11 11:34
  * <p>
  */
-@Slf4j
 public class HttpClientUtil {
+	private static final Log log = LogFactory.getLog(HttpClientUtil.class);
 	public static final int CONNECTION_TIMEOUT = 5000;// 连接超时时间
 
 	public static final int CONNECTION_REQUEST_TIMEOUT = 5000;// 请求超时时间
@@ -170,7 +171,7 @@ public class HttpClientUtil {
 			// 发送请求，并接收响应
 			response = httpClient.execute(httpPost);
 			result = handleResponse(url, encoding, response);
-			log.info("Response body:{}", result);
+			log.info("Response body:" + result);
 		} catch (IOException e) {
 			log.error("-----> url:" + url + ",post请求异常:" + e.getMessage());
 			e.printStackTrace();
