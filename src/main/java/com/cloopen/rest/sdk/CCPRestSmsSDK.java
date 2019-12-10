@@ -26,16 +26,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-
-@Slf4j
 public class CCPRestSmsSDK {
-
+	private final Log log = LogFactory.getLog(CCPRestSmsSDK.class);
 	private static final String TemplateSMS = "SMS/TemplateSMS";
 	private static final String AcountType = "Accounts";
 
@@ -130,8 +129,8 @@ public class CCPRestSmsSDK {
 		}else {
 			requsetbody = generateXml(to,templateId,datas);
 		}
-		log.info("sendTemplateSMS Request url:{} " , url);
-		log.info("sendTemplateSMS Request body:{} " , requsetbody);
+		log.info("sendTemplateSMS Request url:" + url);
+		log.info("sendTemplateSMS Request body:" + requsetbody);
 		String result = HttpClientUtil.post(url,authorization,requsetbody,BODY_TYPE, Constant.UTF8);
 		try {
 			if (BODY_TYPE == BodyType.Type_JSON) {
