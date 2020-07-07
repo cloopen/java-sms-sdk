@@ -11,26 +11,30 @@ import java.util.Set;
 public class CCPRestSmsSDKTest {
 	@Test
 	public void smsSdkTest(){
-		//ç”Ÿäº§ç¯å¢ƒè¯·æ±‚åœ°å€ï¼šapp.cloopen.com
-		String serverIp = "app.cloopen.com";
-		//è¯·æ±‚ç«¯å£
-		String serverPort = "8883";
-		//ä¸»è´¦å·,ç™»é™†äº‘é€šè®¯ç½‘ç«™å,å¯åœ¨æ§åˆ¶å°é¦–é¡µçœ‹åˆ°å¼€å‘è€…ä¸»è´¦å·ACCOUNT SIDå’Œä¸»è´¦å·ä»¤ç‰ŒAUTH TOKEN
-		String accountSId = "accountSId";
-		String accountToken = "accountToken";
-		//è¯·ä½¿ç”¨ç®¡ç†æ§åˆ¶å°ä¸­å·²åˆ›å»ºåº”ç”¨çš„APPID
-		String appId = "appId";
+		//Éú²ú»·¾³ÇëÇóµØÖ·£ºapp.cloopen.com
+		String serverIp = "192.168.182.100";
+		//ÇëÇó¶Ë¿Ú
+		String serverPort = "4100";
+		//Ö÷ÕËºÅ,µÇÂ½ÔÆÍ¨Ñ¶ÍøÕ¾ºó,¿ÉÔÚ¿ØÖÆÌ¨Ê×Ò³¿´µ½¿ª·¢ÕßÖ÷ÕËºÅACCOUNT SIDºÍÖ÷ÕËºÅÁîÅÆAUTH TOKEN
+		String accountSId = "ff8081813fc65581013fc72b94880000";
+		String accountToken = "4e44a775d79e422a9ee26e2966d2cb66";
+		//ÇëÊ¹ÓÃ¹ÜÀí¿ØÖÆÌ¨ÖĞÒÑ´´½¨Ó¦ÓÃµÄAPPID
+		String appId = "ff80808157e69e9c0157f58313a40001";
 		CCPRestSmsSDK sdk = new CCPRestSmsSDK();
 		sdk.init(serverIp, serverPort);
 		sdk.setAccount(accountSId, accountToken);
 		sdk.setAppId(appId);
-		sdk.setBodyType(BodyType.Type_JSON);
-		String to = "mobile1";
-		String templateId= "templateId";
-		String[] datas = {"å˜é‡1","å˜é‡2","å˜é‡3"};
-		HashMap<String, Object> result = sdk.sendTemplateSMS(to,templateId,datas);
+		sdk.setBodyType(BodyType.Type_XML);
+		String to = "13520007311";
+		String templateId= "2241";
+		String[] datas = {"³ÉÎª¶ø¶¨Ê±·¢ËÍ\r" +
+				"·¢µÄËµ·¨","555"};
+		String subAppend="1234";  //¿ÉÑ¡	À©Õ¹Âë£¬ËÄÎ»Êı×Ö 0~9999
+		String reqId="fadfafas";  //¿ÉÑ¡ µÚÈı·½×Ô¶¨ÒåÏûÏ¢id£¬×î´óÖ§³Ö32Î»Ó¢ÎÄÊı×Ö£¬Í¬ÕËºÅÏÂÍ¬Ò»×ÔÈ»ÌìÄÚ²»ÔÊĞíÖØ¸´
+//		HashMap<String, Object> result = sdk.sendTemplateSMS(to,templateId,datas);
+		HashMap<String, Object> result = sdk.sendTemplateSMS(to,templateId,datas,subAppend,reqId);
 		if("000000".equals(result.get("statusCode"))){
-			//æ­£å¸¸è¿”å›è¾“å‡ºdataåŒ…ä½“ä¿¡æ¯ï¼ˆmapï¼‰
+			//Õı³£·µ»ØÊä³ödata°üÌåĞÅÏ¢£¨map£©
 			HashMap<String,Object> data = (HashMap<String, Object>) result.get("data");
 			Set<String> keySet = data.keySet();
 			for(String key:keySet){
@@ -38,8 +42,8 @@ public class CCPRestSmsSDKTest {
 				System.out.println(key +" = "+object);
 			}
 		}else{
-			//å¼‚å¸¸è¿”å›è¾“å‡ºé”™è¯¯ç å’Œé”™è¯¯ä¿¡æ¯
-			System.out.println("é”™è¯¯ç =" + result.get("statusCode") +" é”™è¯¯ä¿¡æ¯= "+result.get("statusMsg"));
+			//Òì³£·µ»ØÊä³ö´íÎóÂëºÍ´íÎóĞÅÏ¢
+			System.out.println("´íÎóÂë=" + result.get("statusCode") +" ´íÎóĞÅÏ¢= "+result.get("statusMsg"));
 		}
 
 	}

@@ -108,8 +108,29 @@ public class CCPRestSmsSDK {
 	 * @return
 	 */
 	public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas) {
+		return send(to,templateId,datas,null,null);
+	}
+	/**
+	 * 发送短信模板请求
+	 *
+	 * @param to
+	 *            必选参数 短信接收端手机号码集合，用英文逗号分开，每批发送的手机号数量不得超过100个
+	 * @param templateId
+	 *            必选参数 模板Id
+	 * @param datas
+	 *            可选参数 内容数据，用于替换模板中{序号}
+	 * @param subAppend 可选参数	扩展码，四位数字 0~9999
+	 * @param reqId 可选参数	自定义消息id，最大支持32位，同账号下同一自然天内不允许重复
+	 *
+	 * @return
+	 */
+	public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas,String subAppend,String reqId) {
+		return send(to,templateId,datas,subAppend,reqId);
+	}
+
+	private HashMap<String, Object> send(String to, String templateId, String[] datas,String subAppend,String reqId){
 		HashMap<String, Object> validate = accountValidate();
-		if(validate!=null) 
+		if(validate!=null)
 			return validate;
 		if ((StringUtils.isEmpty(to)) || (StringUtils.isEmpty(App_ID)) || (StringUtils.isEmpty(templateId)))
 			throw new IllegalArgumentException("必填参数:" + (StringUtils.isEmpty(to) ? " 手机号码 " : "") + (StringUtils.isEmpty(templateId) ? " 模板Id " : "") + "为空");
@@ -125,9 +146,9 @@ public class CCPRestSmsSDK {
 		String url = getBaseUrl().append("/" + AcountType + "/").append(ACCOUNT_SID).append("/" + TemplateSMS + "?sig=").append(sig).toString();
 		String requsetbody = "";
 		if (BODY_TYPE == BodyType.Type_JSON) {
-			requsetbody = generateJson(to,templateId,datas);
+			requsetbody = generateJson(to,templateId,datas,subAppend,reqId);
 		}else {
-			requsetbody = generateXml(to,templateId,datas);
+			requsetbody = generateXml(to,templateId,datas,subAppend,reqId);
 		}
 		log.info("sendTemplateSMS Request url:" + url);
 		log.info("sendTemplateSMS Request body:" + requsetbody);
@@ -272,7 +293,7 @@ public class CCPRestSmsSDK {
 		return map;
 	}
 
-	private String generateJson(String to,String templateId, String[] datas){
+	private String generateJson(String to,String templateId, String[] datas,String subAppend,String reqId){
 		JsonObject json = new JsonObject();
 		json.addProperty("appId", App_ID);
 		json.addProperty("to", to);
@@ -289,9 +310,15 @@ public class CCPRestSmsSDK {
 			JsonArray jarray = JsonParser.parseString(sb.toString()).getAsJsonArray();
 			json.add("datas", jarray);
 		}
+		if(!StringUtils.isBlank(subAppend)&&ParmUtils.checkSubAppend(subAppend)){
+			json.addProperty("subAppend", subAppend);
+		}
+		if(!StringUtils.isBlank(reqId)&&ParmUtils.checkReqId(reqId)){
+			json.addProperty("reqId", reqId);
+		}
 		return json.toString();
 	}
-	private String generateXml(String to,String templateId, String[] datas){
+	private String generateXml(String to,String templateId, String[] datas,String subAppend,String reqId){
 		StringBuilder sb = new StringBuilder("<?xml version='1.0' encoding='utf-8'?><TemplateSMS>");
 		sb.append("<appId>").append(App_ID).append("</appId>").append("<to>").append(to).append("</to>").append("<templateId>").append(templateId)
 				.append("</templateId>");
@@ -302,6 +329,12 @@ public class CCPRestSmsSDK {
 			}
 			sb.append("</datas>");
 		}
+		if(!StringUtils.isBlank(subAppend)&&ParmUtils.checkSubAppend(subAppend)){
+			sb.append("<subAppend>").append(subAppend).append("</subAppend>");
+		}
+		if(!StringUtils.isBlank(reqId)&&ParmUtils.checkReqId(reqId)){
+			sb.append("<reqId>").append(reqId).append("</reqId>");
+		}
 		sb.append("</TemplateSMS>").toString();
 		return sb.toString();
 	}
@@ -309,7 +342,7 @@ public class CCPRestSmsSDK {
 
 
 	private StringBuffer getBaseUrl() {
-		StringBuffer sb = new StringBuffer("https://");
+		StringBuffer sb = new StringBuffer("http://");
 		sb.append(SERVER_IP).append(":").append(SERVER_PORT);
 		sb.append("/2013-12-26");
 		return sb;
