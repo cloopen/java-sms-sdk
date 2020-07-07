@@ -7,7 +7,7 @@
     <groupId>com.cloopen</groupId>
     <artifactId>java-sms-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>java-sms-sdk</name>
     <url>https://www.yuntongxun.com</url>
     <description>Yuntongxun Open API SDK for Java</description>
@@ -44,6 +44,8 @@
         <lombok.version>1.18.10</lombok.version>
         <httpclient.version>4.5.10</httpclient.version>
     </properties>
+
+    <!-- 依赖管理 -->
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
