@@ -14,23 +14,23 @@
 ### 方法介绍
 1. init 
    方法原型：
-   ```java
-    public void init(String serverIP, String serverPort)
-    public void init(String serverIP, String serverPort, Boolean useSSL)
+   ```
+    public void init(String serverIP, String serverPort);
+    public void init(String serverIP, String serverPort, Boolean useSSL);
    ```
    
 2. sendTemplateSMS
    方法原型：
-   ```java
-    public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas)
-    public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas,String subAppend,String reqId)
+   ```
+    public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas);
+    public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas,String subAppend,String reqId);
    ```
    
 ### 使用举例
 
 ```
     //生产环境请求地址：app.cloopen.com
-    String serverIp = "https://app.cloopen.com";
+    String serverIp = "app.cloopen.com";
     //请求端口
     String serverPort = "8883";
     //主账号,登陆云通讯网站后,可在控制台首页看到开发者主账号ACCOUNT SID和主账号令牌AUTH TOKEN
