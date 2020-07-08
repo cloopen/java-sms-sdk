@@ -44,6 +44,7 @@ public class CCPRestSmsSDK {
 	private String ACCOUNT_TOKEN;
 	private String App_ID;
 	private BodyType BODY_TYPE = BodyType.Type_JSON;
+	private Boolean USE_SSL = true;
 	public void setBodyType(BodyType bodyType){
 		BODY_TYPE = bodyType;
 	}
@@ -56,14 +57,17 @@ public class CCPRestSmsSDK {
 	 *            必选参数 服务器端口
 	 */
 	public void init(String serverIP, String serverPort) {
+		init(serverIP,serverPort,true);
+	}
+	public void init(String serverIP, String serverPort, Boolean useSSL) {
 		if (StringUtils.isEmpty(serverIP) || StringUtils.isEmpty(serverPort)) {
 			log.error("初始化异常:serverIP或serverPort为空");
 			throw new IllegalArgumentException("必选参数:" + (StringUtils.isEmpty(serverIP) ? " 服务器地址 " : "") + (StringUtils.isEmpty(serverPort) ? " 服务器端口 " : "") + "为空");
 		}
 		SERVER_IP = serverIP;
 		SERVER_PORT = serverPort;
+		USE_SSL = useSSL;
 	}
-
 	/**
 	 * 初始化主帐号信息
 	 * 
@@ -342,7 +346,12 @@ public class CCPRestSmsSDK {
 
 
 	private StringBuffer getBaseUrl() {
-		StringBuffer sb = new StringBuffer("http://");
+		StringBuffer sb = new StringBuffer();
+		if(USE_SSL){
+			sb.append("https://");
+		}else {
+			sb.append("http://");
+		}
 		sb.append(SERVER_IP).append(":").append(SERVER_PORT);
 		sb.append("/2013-12-26");
 		return sb;

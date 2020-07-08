@@ -8,10 +8,24 @@
     <dependency>
         <groupId>com.cloopen</groupId>
         <artifactId>java-sms-sdk</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </dependency>
 ```
-
+### 方法介绍
+1. init 
+   方法原型：
+   ```
+    public void init(String serverIP, String serverPort);
+    public void init(String serverIP, String serverPort, Boolean useSSL);
+   ```
+   
+2. sendTemplateSMS
+   方法原型：
+   ```
+    public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas);
+    public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas,String subAppend,String reqId);
+   ```
+   
 ### 使用举例
 
 ```
