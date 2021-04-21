@@ -157,6 +157,10 @@ public class CCPRestSmsSDK {
 		log.info("sendTemplateSMS Request url:" + url);
 		log.info("sendTemplateSMS Request body:" + requsetbody);
 		String result = HttpClientUtil.post(url,authorization,requsetbody,BODY_TYPE, Constant.UTF8);
+		if (result == null || result == "")
+		{
+			return getMyError("172001", "网络错误");
+		}
 		try {
 			if (BODY_TYPE == BodyType.Type_JSON) {
 				return jsonToMap(result);
