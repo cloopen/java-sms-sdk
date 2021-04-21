@@ -7,7 +7,7 @@
     <groupId>com.cloopen</groupId>
     <artifactId>java-sms-sdk</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <name>java-sms-sdk</name>
     <url>https://www.yuntongxun.com</url>
     <description>Yuntongxun Open API SDK for Java</description>
